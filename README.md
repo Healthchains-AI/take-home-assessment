@@ -1,5 +1,57 @@
 # AI Health Chains - Web3 MERN Stack Developer Assessment
+# ================================================================================================================================================
+# Notes from Kirill
+# ================================================================================================================================================
+1. I did a security scan of the project and it was marked as malicious. I could be wrong. But i had to remove the code from mockData.js file (line 616). As it contained and used new Function() code from the remote response. Which is usually a redflag because it can install backdoors, and give access to my system.
+2. First i worked on the PatientList.js file:
 
+* Implemented fetchPatients function to call apiService.getPatients and update state with response.patients and response.pagination
+* Added search input handler that updates searchTerm state and resets to page 1
+* Replaced placeholder with patient cards mapping over patients array
+* Each card now displays: name, patientId, email, dateOfBirth, gender, phone, walletAddress (truncated though)
+* Made cards clickable.
+* Implemented pagination
+
+3. After that i worked on PatientDetail.js:
+
+* Implemented fetchPatientData to call apiService.getPatient() and apiService.getPatientRecords() in parallel
+* Updated patient and records state from response and response.records respectively
+* Displayed patient info section.
+* Formatted dates using new Date()
+* Displayed records list.
+* Each card now shows: type badge, title, formatted date, doctor, hospital, status, blockchainHash
+* Worked on CSS styling.
+
+4. ConsentManagement.js came next:
+
+* Implemented fetchConsents to call apiService.getConsents() and update consents state from response.consents
+* Created message to consent.
+* Called signMessage() from useWeb3 hook
+* Called apiService.createConsent()
+* Implemented handleUpdateStatus to call apiService.updateConsent() and refresh list
+* Now we are displaying consents list mapping over filtered consents
+* Each consent shows: patientId, purpose, status badge, createdAt, blockchainTxHash
+* Added "Activate" button for pending consents that calls handleUpdateStatus.
+
+5. Next step was TransactionHistory.js file:
+
+* Implemented fetchTransactions.
+* Implemented formatDate to convert ISO timestamp to readable format using new Date.
+* Worked on displaying those transactions.
+* Each transaction card now shows: type, from address, to address, amount + currency, status badge, formatted timestamp, blockchainTxHash.
+* Used existing formatAddress helper.
+
+6. Finally worked on StatsDashboard:
+
+* Implemented fetchStats to call apiService.getStats() and update stats state
+* Displayed stats in grid layout with 6 stat cards
+* Each stat card should have appropriate styling and visual hierarchy now.
+
+
+7. To test this I had to install MetaMask Chrome extenshion. And create a new wallet since i did not have one. All tests passed and app is looking good. One thing to notice is that transactions initially do not load anything since no transactions were found for my new wallet.
+
+
+# ================================================================================================================================================
 ## Overview
 
 This assessment is designed to evaluate your skills as a Senior Web3 MERN Stack Developer. The project is a healthcare data management platform that integrates blockchain technology for consent tracking and data integrity.
